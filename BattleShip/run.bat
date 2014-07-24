@@ -1,1 +1,1 @@
-java -classpath classes\ BattleShipGame
+java -classpath classes\ BattleShipMain

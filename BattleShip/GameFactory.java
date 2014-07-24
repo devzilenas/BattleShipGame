@@ -6,7 +6,7 @@ public class GameFactory
 				PlayerFactory.withStrategy(strategy),
 				BoardFactory.getMiltonBradley(),
 
-				PlayerFactory.withStrategy(new BattleShipStrategyNull()),
+				PlayerFactory.human(),
 				BoardFactory.getMiltonBradley());
 	}
 }
