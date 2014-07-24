@@ -1,2 +1,2 @@
 mkdir classes
-javac -d classes\ BattleShipGame.java
+javac -d classes\ BattleShipMain.java

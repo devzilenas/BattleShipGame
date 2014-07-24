@@ -4,4 +4,9 @@ public class PlayerFactory
 	{
 		return new BattleShipPlayer(strategy);
 	}
+
+	public static BattleShipPlayer human()
+	{
+		return new BattleShipStrategyNull();
+	}
 }

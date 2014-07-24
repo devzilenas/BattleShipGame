@@ -23,29 +23,14 @@ public class Game
 		boards.put(p2, b2);
 	}
 
-	public void setBoards(Map<Player, Board> boards)
+	public void setTurn(Player player)
 	{
-		this.boards = boards;
-	}
-
-	public Map<Player, Board> getBoards()
-	{
-		return boards;
-	}
-
-	public List<Player> getPlayers()
-	{
-		return new ArrayList<Player>(boards.keySet());
+		this.turn = player;
 	}
 
 	public Player getTurn()
 	{
 		return turn;
-	}
-
-	public void setTurn(Player player)
-	{
-		this.turn = player;
 	}
 
 	public void setWinner(Player player)
@@ -71,6 +56,21 @@ public class Game
 	public boolean isStarted()
 	{
 		return started;
+	}
+
+	public void setBoards(Map<Player, Board> boards)
+	{
+		this.boards = boards;
+	}
+
+	public Map<Player, Board> getBoards()
+	{
+		return boards;
+	}
+
+	public List<Player> getPlayers()
+	{
+		return new ArrayList<Player>(boards.keySet());
 	}
 
 	public Player player(int i)
@@ -120,6 +120,11 @@ public class Game
 		return player;
 	}
 
+	public Board getBoard(Player player)
+	{
+		return getBoards().get(player);
+	}
+
 	public Board getBoard(int i)
 	{
 		return (new ArrayList<Board>(getBoards().values())).get(i);
@@ -130,21 +135,16 @@ public class Game
 		return getBoard(i);
 	}
 
-	public Board getBoard(Player player)
-	{
-		return getBoards().get(player);
-	}
-
-	public Player opponent(Player player)
-	{
-		return player(0) == player ? player(1) : player(0);
-	}
-
 	public Player opponent()
 	{
 		return opponent(player());
 	}
 	
+	public Player opponent(Player player)
+	{
+		return player(0) == player ? player(1) : player(0);
+	}
+
 	public Player player()
 	{
 		return getTurn();

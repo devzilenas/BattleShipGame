@@ -6,9 +6,9 @@ import java.util.LinkedHashMap;
 
 public class Board
 {
-	private Dimension dim              ;
-	private Map<Point,Ship> ships      ;
-	private Map<Point,Tile> tiles      ;
+	Dimension dim              ;
+	Map<Point,Ship> ships      ;
+	Map<Point,Tile> tiles      ;
 
 	public Board(int width, int height)
 	{
@@ -25,19 +25,24 @@ public class Board
 		}
 	}
 
-	public Dimension getDimension()
-	{
-		return dim;
-	}
-
 	public void setDimension(Dimension dim)
 	{ 
 		this.dim = dim;
 	}
 
+	public Dimension getDimension()
+	{
+		return dim;
+	}
+
 	public void setTiles(Map<Point, Tile> tiles)
 	{
 		this.tiles = tiles;
+	}
+
+	public Map<Point, Tile> getTiles()
+	{
+		return tiles;
 	}
 
 	public void setShips(Map<Point,Ship> ships)
@@ -50,11 +55,6 @@ public class Board
 		return ships;
 	}
 
-	public Map<Point, Tile> getTiles()
-	{
-		return tiles;
-	}
-
 	public List<Point> getPoints()
 	{
 		return new ArrayList<Point>(getTiles().keySet());
@@ -65,14 +65,14 @@ public class Board
 		return new ArrayList<Ship>(getShips().values());
 	}
 
-	public Tile getTileAt(Point point)
-	{
-		return getTiles().get(point);
-	}
-
 	public void setTileAt(Tile tile, Point point)
 	{
 		getTiles().put(point, tile);
+	}
+
+	public Tile getTileAt(Point point)
+	{
+		return getTiles().get(point);
 	}
 
 	public Point getPointAt(int index)
@@ -135,6 +135,7 @@ public class Board
 		return fits && free;
 	}
 
+	//#TODO rename to "getPointsSouth" for clarity
 	public List<Point> pointsSouth(Point from, int length)
 	{
 		List<Point> points = new ArrayList<Point>();
@@ -155,6 +156,7 @@ public class Board
 		return points;
 	}
 
+	//#TODO rename to "getPointsEast" for clarity
 	public List<Point> pointsEast(Point from, int length)
 	{
 		List<Point> points = new ArrayList<Point>();
@@ -188,6 +190,7 @@ public class Board
 		return ret;
 	}
 
+	//#TODO rename to getRandomPoint
 	public Point getRandom()
 	{
 		int   index = (int) (Math.random() * getSize());
@@ -195,12 +198,14 @@ public class Board
 		return point;
 	}
 
+	//#TODO rename to getRandomEmptyPoint
 	public Point getRandomEmpty()
 	{
 		Point point = getRandom();
 		return hasShipAt(point) ? getNextEmptyPoint(point) : point;
 	}
 
+	//#TODO rename to getRandomNotAttackedPoint
 	public Point getRandomNotAttacked()
 	{
 		Point point = getRandom();

@@ -1,7 +1,7 @@
 public class Dimension
 {
-	private int width ;
-	private int height;
+	int width ;
+	int height;
 
 	public Dimension(int width, int height)
 	{

@@ -12,16 +12,16 @@ public class Tile
 		this.ship = ship;
 	}
 
-	public Ship getShip()
-	{
-		return ship;
-	}
-
 	public void setShip(Ship ship)
 	{
 		this.ship = ship;
 	}
 	
+	public Ship getShip()
+	{
+		return ship;
+	}
+
 	public void setAttacked(boolean attacked)
 	{
 		this.attacked = attacked;

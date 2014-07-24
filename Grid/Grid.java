@@ -32,16 +32,6 @@ public class Grid
 
 	}
 
-	public Map<Point, Rectangle> getRectangles() 
-	{
-		return rectangles;
-	}
-
-	public Dimension getDimension()
-	{
-		return dim;
-	}
-
 	public void setRows(int rows)
 	{
 		this.rows = rows; 
@@ -60,6 +50,26 @@ public class Grid
 	public int getCols()
 	{
 		return cols;
+	}
+
+	public void setDimension(Dimension dim)
+	{
+		this.dim = dim;
+	}
+
+	public Dimension getDimension()
+	{
+		return dim;
+	}
+
+	public void setRectangles(Map<Point, Rectangle> rectangles)
+	{
+		this.rectangles = rectangles;
+	}
+
+	public Map<Point, Rectangle> getRectangles() 
+	{
+		return rectangles;
 	}
 
 	public List<Rectangle> rectangles()

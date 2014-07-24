@@ -1,9 +1,9 @@
 public class Player
 {
-	public static final String DEFAULT_NAME_I = "Player %d";
-	public static final String DEFAULT_NAME   = "Player";
-	private Board  board;
+	private static final String DEFAULT_NAME   = "Player";
+	private static final String DEFAULT_NAME_I = "Player %d";
 	private String name ;
+	private Board  board;
 
 	public Player()
 	{
@@ -37,16 +37,6 @@ public class Player
 		this.board = board;
 	}
 
-	public void setBoard(Board board)
-	{
-		this.board = board;
-	}
-
-	public Board getBoard()
-	{
-		return board;
-	}
-
 	public void setName(String name)
 	{
 		this.name = name;
@@ -57,9 +47,14 @@ public class Player
 		return name;
 	}
 
-	public String getDefaultNameI()
+	public void setBoard(Board board)
 	{
-		return DEFAULT_NAME_I;
+		this.board = board;
+	}
+
+	public Board getBoard()
+	{
+		return board;
 	}
 
 	public String getDefaultName()
@@ -69,7 +64,12 @@ public class Player
 
 	public String getDefaultName(int i)
 	{
-		return String.format(getDefaultName(), i);
+		return String.format(getDefaultNameI(), i);
+	}
+
+	private String getDefaultNameI()
+	{
+		return DEFAULT_NAME_I;
 	}
 
 	public Board board()
