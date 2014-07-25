@@ -57,12 +57,14 @@ public class Point
 		Point   point = null;
 		Pattern p = Pattern.compile("x:(\\d),y:(\\d)");
 		Matcher m = p.matcher(str);
-		if (m.matches() && 2 == m.groupCount())
+		try
 		{
-			point = new Point(m.group(1), m.group(2));
+			point = new Point(Integer.valueOf(m.group(1)), Integer.valueOf(m.group(2)));
 		}
-		else
+		catch (IndexOutOfBoundsException|NumberFormatException e)
 		{
+			e.printStackTrace(System.err);
+			System.err.println("Conversion Str->Point failed for string:"+str);
 			throw new PointConversionException();
 		}
 

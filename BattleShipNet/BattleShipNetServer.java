@@ -2,10 +2,11 @@ import java.net.*;
 import java.io.*;
 
 public class BattleShipNetServer
+	extends Thread
 {
-	int               portNumber  ;
-	ServerSocket      serverSocket;
-	BattleShipNetGame game        ;
+	private int               portNumber  ;
+	private ServerSocket      serverSocket;
+	private BattleShipNetGame game        ;
 
 	public BattleShipNetServer(int portNumber)
 	{
@@ -32,7 +33,7 @@ public class BattleShipNetServer
 		this.serverSocket = serverSocket;
 	}
 
-	public void setGame(Game game)
+	public void setGame(BattleShipNetGame game)
 	{
 		this.game = game;
 	}
@@ -42,13 +43,15 @@ public class BattleShipNetServer
 		return game;
 	}
 
-	public void createSocket()
+	public void createGame()
 	{
 		try 
 		{
-			setServerSocket(new ServerSocket(getPortNumber()));
-			setGame(new BattleShipNetGame(serverSocket));
-			getGame().init();
+			setServerSocket(
+					new ServerSocket(getPortNumber()));
+			setGame(
+					BattleShipNetGameFactory.getMiltonBradleyGame(
+						serverSocket));
 		}
 		catch (IOException e)
 		{
@@ -57,31 +60,28 @@ public class BattleShipNetServer
 		}
 	}
 
-	public static String readLine()
+	public void startGame()
 	{
-		t1.readLine();
+		getGame().startThreads();
 	}
 
-	public static Game play()
+	public void play()
 	{
-		while (getGame().!isReady())
+		while (!getGame().playersConnected())
 		{
 		}
 
-		if (getGame().isReady())
+		if (getGame().playersConnected())
 		{
-			say(BattleShipNetProtocol.yourName());
-			t1.readLine();
-			t2.readLine();
+			System.out.println("saying "+BattleShipNetProtocol.yourName());
+			getGame().say(BattleShipNetProtocol.yourName());
 		}
 	}
 
-	public static void say(Threads[] ts, String msg)
+	public void run()
 	{
-		for (int i = 0; i < ts.length; i++)
-		{
-			ts[i].say(msg);
-		} 
+		createGame();
+		startGame();
+		play();
 	}
-
 }

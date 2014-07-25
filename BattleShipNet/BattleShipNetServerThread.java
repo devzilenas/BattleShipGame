@@ -1,15 +1,18 @@
-import java.net.*;
-import java.io.*;
+import java.net.Socket;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
 public class BattleShipNetServerThread
 	extends Thread
 {
-	Socket socket;
-	Player player;
-	boolean ready = false;
+	private Socket  socket;
+	private Player  player;
+	private boolean ready = false;
 
-	PrintWriter    out;
-	BufferedReader in;
+	private PrintWriter    out;
+	private BufferedReader in ;
 
 	public BattleShipNetServerThread(Socket socket)
 	{
@@ -74,28 +77,40 @@ public class BattleShipNetServerThread
 
 	public void say(String str)
 	{
-		out.println(str);
+		getOut().println(str);
 	}
 
 	public String readLine()
 	{
-		in.readLine();
+		String ret = null;
+		try 
+		{
+			ret = in.readLine();
+		}
+		catch (IOException e)
+		{ 
+			System.err.println("Could not read from socket."+e);
+		} 
+		return ret;
 	}
 
 	public void run()
 	{
-		try (
-				setOut(new PrintWriter(socket.getOutputStream(), true));
-				setIn(new BufferedReader(
-					new InputStreamReader(socket.getInputStream()))); 
-		)
+		try
 		{
-			String inputLine, outputLine;
-			BattleShipNetProtocol bsnp = new BattleShipNetProtocol();
+			setOut(new PrintWriter(
+						socket.getOutputStream(), true));
+			setIn(new BufferedReader(
+						new InputStreamReader(socket.getInputStream()))); 
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public boolean isConnected()
+	{
+		return getSocket().isConnected();
 	}
 }

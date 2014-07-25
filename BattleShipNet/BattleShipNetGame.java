@@ -1,30 +1,30 @@
+import java.net.ServerSocket;
+import java.io.IOException;
+
 public class BattleShipNetGame
+	extends Game
 {
-	Game         game        ;
-	Thread[]     threads     ;
-	ServerSocket serverSocket;
+	BattleShipNetServerThread[] threads;
+	ServerSocket                serverSocket;
 	
-	public BattleShipNetGame(ServerSocket serverSocket)
+	public BattleShipNetGame(BattleShipPlayer p1, Board b1, BattleShipPlayer p2, Board b2, ServerSocket serverSocket)
+		throws IOException
 	{
+		super(p1,b1,p2,b2);
 		this.serverSocket = serverSocket;
+
+		this.threads = new BattleShipNetServerThread[] {
+			new BattleShipNetServerThread(getServerSocket().accept()),
+			new BattleShipNetServerThread(getServerSocket().accept())
+		};
 	}
 
-	public BattleShipNetGame(Game game)
+	public void setThreads(BattleShipNetServerThread[] threads)
 	{
-		this.game = game;
+		this.threads = threads;
 	}
 
-	public void setGame(BattleShipGame game)
-	{
-		this.game = game;
-	}
-
-	public Game getGame()
-	{
-		return game;
-	}
-
-	public Thread[] getThreads()
+	public BattleShipNetServerThread[] getThreads()
 	{
 		return threads;
 	}
@@ -34,12 +34,12 @@ public class BattleShipNetGame
 		return serverSocket;
 	}
 
-	public Thread getThread(Player player)
+	public BattleShipNetServerThread getThread(Player player)
 	{
-		Thread ret = null;
-		for (Thread thread : getThreads())
+		BattleShipNetServerThread ret = null;
+		for (BattleShipNetServerThread thread : getThreads())
 		{
-			if (player == thread.getPlayer())
+			if (thread.getPlayer() == player)
 			{
 				ret = thread;
 				break;
@@ -48,23 +48,15 @@ public class BattleShipNetGame
 		return ret;
 	}
 
-	public Thread getThreadFor(Player player)
+	public BattleShipNetServerThread getThreadFor(Player player)
 	{
 		return getThread(player);
-	}
-
-	public void init()
-	{
-		this.threads = new Thread[] {
-			new BattleShipNetServerThread(getServerSocket().accept()),
-			new BattleShipNetServerThread(getServerSocket().accept())
-		};
 	}
 
 	public boolean isReady()
 	{
 		boolean ready = true;
-		for (Thread thread : getThreads())
+		for (BattleShipNetServerThread thread : getThreads())
 		{
 			if (!thread.isReady())
 			{
@@ -75,8 +67,36 @@ public class BattleShipNetGame
 		return ready;
 	}
 
-	public void prepareGame()
+	public void startThreads()
 	{
-		setGame(BattleShipNetGameFactory.getMiltonBradleyGame());
+		for (Thread thread : getThreads())
+		{
+			thread.start();
+		}
+	}
+
+	public boolean playersConnected()
+	{
+		boolean connected = true;
+		for (BattleShipNetServerThread thread : getThreads())
+		{
+			if (!thread.isConnected())
+			{
+				connected = false;
+				break;
+			}
+		}
+		return connected;
+	}
+
+	public void say(String msg)
+	{
+		if (playersConnected())
+		{
+			for (BattleShipNetServerThread thread : getThreads())
+			{
+				thread.say(msg);
+			}
+		}
 	}
 }

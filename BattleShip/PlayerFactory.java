@@ -7,6 +7,6 @@ public class PlayerFactory
 
 	public static BattleShipPlayer human()
 	{
-		return new BattleShipStrategyNull();
+		return withStrategy(new BattleShipStrategyNull());
 	}
 }

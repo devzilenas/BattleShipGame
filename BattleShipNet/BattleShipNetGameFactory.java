@@ -1,12 +1,20 @@
+import java.net.ServerSocket;
+import java.io.IOException;
+
 public class BattleShipNetGameFactory
 	extends GameFactory
 {
-	public static Game getMiltonBradleyGame()
+	public static BattleShipNetGame getMiltonBradleyGame(ServerSocket serverSocket)
+		throws IOException
 	{
-		return new Game(
-				PlayerFactry.human(),
-				BoardFactory.getMiltonBradley(),
+		return new BattleShipNetGame(
+
 				PlayerFactory.human(),
-				BoardFactory.getMiltonBradley());
+				BoardFactory.getMiltonBradley(),
+
+				PlayerFactory.human(),
+				BoardFactory.getMiltonBradley(),
+
+				serverSocket);
 	}
 }
