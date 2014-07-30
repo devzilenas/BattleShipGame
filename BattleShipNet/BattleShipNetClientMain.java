@@ -11,7 +11,7 @@ public class BattleShipNetClientMain
 	{
 		if (2 != args.length)
 		{
-			System.out.println("Usage: BattleShipNetClient <host name> <port number>");
+			System.out.println("Usage: BattleShipNetClientMain <host name> <port number>");
 			System.exit(1);
 		}
 
@@ -26,13 +26,11 @@ public class BattleShipNetClientMain
 			System.out.println("Wrong value for <port number> given.");
 		}
 
+		BattleShipNetClient bsnc = new BattleShipNetClient(hostName, portNumber);
+		bsnc.play();
+
 		try
 		(
-		    Socket socket = new Socket(hostName, portNumber);
-			PrintWriter out = new PrintWriter(
-				socket.getOutputStream(), true);
-			BufferedReader in = new BufferedReader(
-				new InputStreamReader(socket.getInputStream()));
 		)
 		{
 			String fromServer = null;

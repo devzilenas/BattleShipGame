@@ -1,5 +1,10 @@
 public class BattleShipNetProtocol
 {
+	public static String start()
+	{
+		return "START";
+	}
+
 	public static String miss()
 	{
 		return "MISS";
@@ -38,5 +43,10 @@ public class BattleShipNetProtocol
 	public static String winnerIs(Player player)
 	{
 		return "WINNER IS "+player;
+	}
+
+	public static String ready()
+	{
+		return "READY";
 	}
 }

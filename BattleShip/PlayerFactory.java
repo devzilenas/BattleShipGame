@@ -9,4 +9,14 @@ public class PlayerFactory
 	{
 		return withStrategy(new BattleShipStrategyNull());
 	}
+
+	public static BattleShipPlayer random()
+	{
+		return withStrategy(new BattleShipStrategyRandom());
+	}
+
+	public static BattleShipPlayer server()
+	{
+		return withStrategy(new BattleShipStrategyNull());
+	}
 }

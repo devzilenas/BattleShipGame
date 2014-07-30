@@ -7,17 +7,15 @@ import java.io.IOException;
 public class BattleShipNetServerThread
 	extends Thread
 {
-	private Socket  socket;
-	private Player  player;
-	private boolean ready = false;
+	private CommunicationModule cm    ;
+	private Player              player;
+	private boolean             ready = false;
 
-	private PrintWriter    out;
-	private BufferedReader in ;
-
-	public BattleShipNetServerThread(Socket socket)
+	public BattleShipNetServerThread(Socket socket, Player player)
 	{
 		super("BattleShipNetServerThread");
-		this.socket = socket;
+		this.player = player;
+		cm = new CommunicationModule(socket);
 	}
 
 	public void setReady(boolean ready)
@@ -35,16 +33,6 @@ public class BattleShipNetServerThread
 		return ready;
 	}
 
-	public void setSocket(Socket socket)
-	{
-		this.socket = socket;
-	}
-
-	public Socket getSocket()
-	{
-		return socket;
-	}
-
 	public void setPlayer(Player player)
 	{
 		this.player = player;
@@ -55,62 +43,18 @@ public class BattleShipNetServerThread
 		return player;
 	}
 
-	public void setOut(PrintWriter out)
-	{
-		this.out = out;
-	}
-	
-	public PrintWriter getOut()
-	{
-		return out;
-	}
-
-	public void setIn(BufferedReader in)
-	{
-		this.in = in;
-	}
-
-	public BufferedReader getIn()
-	{
-		return in;
-	}
-
 	public void say(String str)
 	{
-		getOut().println(str);
-	}
-
-	public String readLine()
-	{
-		String ret = null;
-		try 
-		{
-			ret = in.readLine();
-		}
-		catch (IOException e)
-		{ 
-			System.err.println("Could not read from socket."+e);
-		} 
-		return ret;
+		getCommunicationModule().say();
 	}
 
 	public void run()
 	{
-		try
-		{
-			setOut(new PrintWriter(
-						socket.getOutputStream(), true));
-			setIn(new BufferedReader(
-						new InputStreamReader(socket.getInputStream()))); 
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		getCommunicationModule().init();
 	}
 
 	public boolean isConnected()
 	{
-		return getSocket().isConnected();
+		return getCommunicationModule().isConnected();
 	}
 }

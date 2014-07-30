@@ -4,10 +4,10 @@ import java.io.IOException;
 public class BattleShipNetGameFactory
 	extends GameFactory
 {
-	public static BattleShipNetGame getMiltonBradleyGame(ServerSocket serverSocket)
+	public static BattleShipNetServerGame getMiltonBradleyGame(ServerSocket serverSocket)
 		throws IOException
 	{
-		return new BattleShipNetGame(
+		return new BattleShipNetServerGame(
 
 				PlayerFactory.human(),
 				BoardFactory.getMiltonBradley(),
@@ -16,5 +16,15 @@ public class BattleShipNetGameFactory
 				BoardFactory.getMiltonBradley(),
 
 				serverSocket);
+	}
+
+	public static BattleShipNetClientGame getClientGame()
+	{
+		return new BattleShipNetClientGame(
+				PlayerFactory.server(),
+				BoardFactory.getMiltonBradley(),
+
+				PlayerFactory.random(),
+				BoardFactory.getMiltonBradley());
 	}
 }

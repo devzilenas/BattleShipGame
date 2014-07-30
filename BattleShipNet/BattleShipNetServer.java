@@ -4,33 +4,35 @@ import java.io.*;
 public class BattleShipNetServer
 	extends Thread
 {
-	private int               portNumber  ;
+	public static final int   SERVER_TICK = 100;
+	public static final BattleShipNetProtocol protocol = new BattleShipNetProtocol();
+	private Configuration     cfg         ;
 	private ServerSocket      serverSocket;
-	private BattleShipNetGame game        ;
+	private BattleShipNetServerGame game  ;
 
 	public BattleShipNetServer(int portNumber)
 	{
-		this.portNumber = portNumber;
+		this.cfg = new Configuration(portNumber);
 	}
 
-	public void setPortNumber(int portNumber)
+	public static int getServerTick()
 	{
-		this.portNumber = portNumber;
+		return SERVER_TICK;
 	}
 
-	public int getPortNumber()
+	public BattleShipNetProtocol getProtocol()
 	{
-		return portNumber;
-	}
-
-	public ServerSocket getServerSocket()
-	{
-		return serverSocket;
+		return protocol;
 	}
 
 	public void setServerSocket(ServerSocket serverSocket)
 	{
 		this.serverSocket = serverSocket;
+	}
+
+	public ServerSocket getServerSocket()
+	{
+		return serverSocket;
 	}
 
 	public void setGame(BattleShipNetGame game)
@@ -48,14 +50,15 @@ public class BattleShipNetServer
 		try 
 		{
 			setServerSocket(
-					new ServerSocket(getPortNumber()));
+					new ServerSocket(
+						getConfiguration().getPortNumber()));
 			setGame(
 					BattleShipNetGameFactory.getMiltonBradleyGame(
 						serverSocket));
 		}
 		catch (IOException e)
 		{
-			System.err.println("Could not listen on port " + portNumber);
+			System.err.println("Could not listen on port " + getConfiguration().getPortNumber());
 			System.exit(-1);
 		}
 	}
@@ -67,14 +70,34 @@ public class BattleShipNetServer
 
 	public void play()
 	{
+		String resp = null;
 		while (!getGame().playersConnected())
 		{
+			sleep();
 		}
 
 		if (getGame().playersConnected())
 		{
-			System.out.println("saying "+BattleShipNetProtocol.yourName());
-			getGame().say(BattleShipNetProtocol.yourName());
+			getGame().start();
+		}
+
+		while (!getGame().isOver())
+		{
+			getGame().getTurn().say(
+					getProtocol().yourMove());
+			getGame().getTurn().nextCommand();
+			if (getGame().getTurn().getCommand())
+			{
+			}
+			else if ()
+			{
+			}
+			else if ()
+			{
+			}
+			else if ()
+			{
+			}
 		}
 	}
 
@@ -83,5 +106,10 @@ public class BattleShipNetServer
 		createGame();
 		startGame();
 		play();
+	}
+
+	public void sleep()
+	{
+		Thread.sleep(getServerTick());
 	}
 }

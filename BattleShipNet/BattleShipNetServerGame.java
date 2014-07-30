@@ -1,21 +1,23 @@
 import java.net.ServerSocket;
 import java.io.IOException;
 
-public class BattleShipNetGame
+public class BattleShipNetServerGame
 	extends Game
 {
 	BattleShipNetServerThread[] threads;
 	ServerSocket                serverSocket;
 	
-	public BattleShipNetGame(BattleShipPlayer p1, Board b1, BattleShipPlayer p2, Board b2, ServerSocket serverSocket)
+	public BattleShipNetServerGame(BattleShipPlayer p1, Board b1, BattleShipPlayer p2, Board b2, ServerSocket serverSocket)
 		throws IOException
 	{
 		super(p1,b1,p2,b2);
 		this.serverSocket = serverSocket;
 
 		this.threads = new BattleShipNetServerThread[] {
-			new BattleShipNetServerThread(getServerSocket().accept()),
-			new BattleShipNetServerThread(getServerSocket().accept())
+			new BattleShipNetServerThread(
+					getServerSocket().accept(), p1),
+			new BattleShipNetServerThread(
+					getServerSocket().accept(), p2)
 		};
 	}
 
@@ -98,5 +100,10 @@ public class BattleShipNetGame
 				thread.say(msg);
 			}
 		}
+	}
+
+	public BattleShipNetServerThread getTurn()
+	{
+		return getThreadFor(super().getTurn());
 	}
 }
