@@ -301,4 +301,19 @@ public class Board
 	{
 		return getTileAt(point).isAttacked();
 	} 
+
+	public boolean isHitAt(Point point)
+	{
+		return getTileAt(point).isHit();
+	}
+
+	public boolean isMissAt(Point point)
+	{
+		return getTileAt(point).isMiss();
+	}
+
+	public void setHitAt(Point point)
+	{
+		getTileAt(point).setHit();
+	}
 }

@@ -12,6 +12,12 @@ public class Point
 		this.y = y;
 	}
 
+	public Point(String str)
+	{ 
+		Point point = fromString(str);
+		this(point.getX(), point.getY());
+	}
+
 	public void setX(int x)
 	{
 		this.x = x;
@@ -69,5 +75,30 @@ public class Point
 		}
 
 		return point;
+	}
+
+	public static Point[] pointsFromString(String str)
+		throws PointConversionException
+	{
+		Point   point = null;
+		Point[] points;
+		Pattern p = Pattern.compile("(x:\\d,y:\\d)");
+		Matcher m = p.matcher(str);
+		try
+		{
+			points = new Point[m.groupCount()];
+			for (int i = 0; i < m.groupCount(); i++)
+			{
+				points[i] = new Point(m.group(1));
+			}
+		}
+		catch (IndexOutOfBoundsException|NumberFormatException e)
+		{
+			e.printStackTrace(System.err);
+			System.err.println("Conversion Str->Points failed for string:"+str);
+			throw new PointConversionException();
+		}
+
+		return points;
 	}
 }

@@ -35,17 +35,34 @@ public class BattleShipNetClient
 		while (!getThread().gameOver())
 		{
 			getThread().nextCommand();
-			if (getThread().myMove())
+			if (getThread().attack().equals(
+						getThread().getCommand()))
 			{
-			} 
-			else if (getThread().attack())
-			{
+				Point point = getThread().getGame().player(1).getStrategy().getNextPoint(player(0).getBoard());
+				getThread().attackAt(point);
 			}
 			else if (getThread().attacks())
+			{ 
+				Point point = new Point(
+						getThread().getCommand());
+				getThread().getGame().attackAt(point);
+			}
+			else if (getThread().isHit())
+			{
+				Point point = new Point(getThread().getCommand());
+				getThread().getGame().setHitAt(point);
+			}
+			else if (getThread().isMiss())
+			{
+				Point point = new Point(getThread().getCommand());
+				getThread().getGame().setMissAt(point);
+			}
+			else if (getThread().isSunken())
 			{
 			}
 			else if (getThread().gameOver())
 			{
+				System.out.println("Game over");
 			}
 			Thread.sleep(100);
 		}

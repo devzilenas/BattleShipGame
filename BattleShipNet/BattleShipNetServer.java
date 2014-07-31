@@ -84,13 +84,23 @@ public class BattleShipNetServer
 		while (!getGame().isOver())
 		{
 			getGame().getTurn().say(
-					getProtocol().yourMove());
+					getProtocol().attack());
 			getGame().getTurn().nextCommand();
-			if (getGame().getTurn().getCommand())
+			if (getProtocol().attacks(
+						getGame().getTurn().getCommand()))
 			{
-			}
-			else if ()
-			{
+				getGame().attack(
+						new Point(
+							getGame().getTurn().getCommand()));
+				if (getGame().opponent(
+							(getGame().getTurn().getPlayer())).getBoard().isHitAt(point))
+				{
+					getGame().getTurn().say(
+							getProtocol().hit());
+				}
+				else
+				{
+				}
 			}
 			else if ()
 			{

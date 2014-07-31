@@ -70,4 +70,32 @@ public class BattleShipNetClientThread
 		return BattleShipNetProtocol.yourMove().equals(
 				getCommand());
 	}
+
+	public boolean attacks()
+	{
+		return BattleShipNetProtocol.attacks(
+				getCommand());
+	}
+
+	public boolean attack()
+	{
+		return BattleShipNetProtocol.attack().equals(
+				getCommand());
+	}
+	
+	public void attackAt(Point point)
+	{
+		say(BattleShipNetProtocol.attackAt(point));
+	}
+
+	public boolean isHit()
+	{
+		return BattleShipNetProtocol.isHitAt(getCommand());
+	}
+
+	public boolean isSunken()
+	{
+		return BattleShipNetProtocol.isSunkenAt(getCommand());
+	}
+
 }

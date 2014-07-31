@@ -1,7 +1,8 @@
 public class Tile
 {
-	private Ship ship;
-	boolean attacked;
+	private Ship    ship    ;
+	private boolean attacked;
+	private boolean hit     ;
 
 	public Tile()
 	{
@@ -37,14 +38,24 @@ public class Tile
 		return getAttacked();
 	}
 
+	public void setHit(boolean hit)
+	{
+		this.hit = hit;
+	}
+
+	public boolean getHit()
+	{
+		return hit;
+	}
+
 	public boolean isHit()
 	{
-		return isAttacked() && hasShip();
+		return isAttacked() && (isHit() || hasShip());
 	}
 
 	public boolean isMiss()
 	{
-		return isAttacked() && !hasShip();
+		return isAttacked() && !isHit();
 	}
 
 	public boolean hasShip()
@@ -58,6 +69,7 @@ public class Tile
 		if (hasShip())
 		{
 			getShip().hit();
+			setHit(true);
 		}
 	}
 
