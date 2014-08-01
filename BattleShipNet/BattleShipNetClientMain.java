@@ -29,34 +29,5 @@ public class BattleShipNetClientMain
 		BattleShipNetClient bsnc = new BattleShipNetClient(hostName, portNumber);
 		bsnc.play();
 
-		try
-		(
-		)
-		{
-			String fromServer = null;
-			for (;;)
-			{
-				Thread.sleep(100);
-				while (null != (fromServer = in.readLine()))
-				{
-					System.out.println("Got from server:"+fromServer);
-				}
-			}
-		}
-		catch (InterruptedException e)
-		{
-			System.err.println("Client run interrupted"+e);
-		}
-		catch (UnknownHostException e)
-		{
-			System.err.println("Don't know about host " + hostName);
-			System.exit(1);
-		}
-		catch (IOException e)
-		{
-			System.err.println("Couldn't get I/O for the connection to " +hostName);
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}
 	}
 }

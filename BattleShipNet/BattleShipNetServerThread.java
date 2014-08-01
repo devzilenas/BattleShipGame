@@ -18,6 +18,16 @@ public class BattleShipNetServerThread
 		cm = new CommunicationModule(socket);
 	}
 
+	public void setCommunicationModule(CommunicationModule cm)
+	{
+		this.cm = cm;
+	}
+
+	public CommunicationModule getCommunicationModule()
+	{
+		return cm;
+	}
+
 	public void setReady(boolean ready)
 	{
 		this.ready = ready;
@@ -45,7 +55,7 @@ public class BattleShipNetServerThread
 
 	public void say(String str)
 	{
-		getCommunicationModule().say();
+		getCommunicationModule().say(str);
 	}
 
 	public void run()

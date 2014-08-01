@@ -59,12 +59,23 @@ public class BattleShipNetClient
 			}
 			else if (getThread().isSunken())
 			{
+				Point[] points = Point.pointsFromString(
+						getThread().getCommand());
+				getThread().getGame().getBoard().putShipAt(
+						ShipFactory.sunken(points.length), points);
 			}
 			else if (getThread().gameOver())
 			{
 				System.out.println("Game over");
 			}
-			Thread.sleep(100);
+			
+			try {
+				Thread.sleep(100);
+			}
+			catch (InterruptedException e)
+			{
+				System.err.println("Client run interrupted"+e);
+			}
 		}
 
 		if (getThread().gameOver())

@@ -28,19 +28,24 @@ public class BattleShipNetProtocol
 		return "HIT AT";
 	}
 
-	public static String sunkenAt()
+	public static String sunken()
 	{
-		return "SUNKEN AT";
+		return "SUNKEN";
 	}
 
-	public static boolean isHitAt(command)
+	public static String sunken(Point[] points)
+	{
+		return sunken() + " " + Point.pointsAsString(points);
+	}
+
+	public static boolean isHitAt(String command)
 	{
 		return contains(hitAt(), command);
 	}
 
-	public static boolean isSunken(command)
+	public static boolean isSunken(String command)
 	{
-		return contains(sunkenAt(), command);
+		return contains(sunken(), command);
 	}
 
 	public static String yourName()
@@ -54,7 +59,7 @@ public class BattleShipNetProtocol
 	}
 
 	public static String attackAt(Point point)
-	{ 
+	{
 		return "ATTACK AT " + point.toString();
 	}
 
@@ -78,14 +83,14 @@ public class BattleShipNetProtocol
 		return contains("ATTACK AT", attacks);
 	}
 
-	public static boolean extractPoint(String command)
+	public static Point extractPoint(String command)
 	{
-		return new Point(command);
+		return PointFactory.fromString(command);
 	}
 
-	public static String contains(String str, String command)
+	public static boolean contains(String str, String command)
 	{
-		Pattern p = Patter.compile(str);
+		Pattern p = Pattern.compile(str);
 		Matcher m = p.matcher(command);
 		return m.matches();
 	}

@@ -43,6 +43,11 @@ public class Tile
 		this.hit = hit;
 	}
 
+	public void setHit()
+	{
+		setHit(true);
+	}
+
 	public boolean getHit()
 	{
 		return hit;

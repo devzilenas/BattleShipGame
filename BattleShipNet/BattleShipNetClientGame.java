@@ -1,6 +1,11 @@
 public class BattleShipNetClientGame
 	extends Game
 {
+	public BattleShipNetClientGame(Player p1, Board b1, Player p2, Board b2)
+	{
+		super(p1,b1,p2,b2);
+	}
+
 	public boolean serverWins()
 	{
 		return hasWinner()
@@ -9,7 +14,7 @@ public class BattleShipNetClientGame
 
 	public Player getServerPlayer()
 	{
-		return getPlayer(0).getStrategy() instanceof BattleShipStrategyServer ? getPlayer(0) : getPlayer(1);
+		return player(0).getStrategy() instanceof BattleShipStrategyServer ? player(0) : player(1);
 	}
 
 	public void setHitAt(Point point)

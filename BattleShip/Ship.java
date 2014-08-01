@@ -56,5 +56,10 @@ public class Ship
 	{
 		return "Ship size:" + getSize() + ", health:"+getHealth();
 	}
+
+	public void sunk()
+	{
+		setHealth(0);
+	}
 }
 

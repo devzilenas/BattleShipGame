@@ -1,34 +1,11 @@
 public class BattleShipNetClientThread 
-	extends Thread
+	extends BattleShipNetThread
 {
-	private CommunicationModule     cm     ;
-	private String                  command;
 	private BattleShipNetClientGame game   ;
 
 	public BattleShipNetClientThread(Socket socket)
 	{
-		this.cm   = new CommunicationModule(socket);
 		this.game = BattleShipNetGameFactory.getClientGame();
-	}
-
-	public String setCommand(String command)
-	{
-		this.command = command;
-	}
-
-	public void getCommand()
-	{
-		return command; 
-	}
-
-	public String nextCommand()
-	{
-		String str = null;
-		if ( null != (str = getCommunicationModule().getLineBlocking()) )
-		{
-			setCommand(str);
-		}
-		return str;
 	}
 
 	public void setGame(BattleShipNetClientGame game)
@@ -54,7 +31,7 @@ public class BattleShipNetClientThread
 	public String getLineBlocking()
 	{
 		String str = null;
-		while (null != (str = getCommunicationsModule().readLine()))
+		while (null != (str = getCommunicationModule().readLine()))
 		{
 		}
 		return str;
@@ -63,12 +40,6 @@ public class BattleShipNetClientThread
 	public boolean gameOver()
 	{
 		return getGame().isOver();
-	}
-
-	public boolean myMove()
-	{
-		return BattleShipNetProtocol.yourMove().equals(
-				getCommand());
 	}
 
 	public boolean attacks()
@@ -95,7 +66,7 @@ public class BattleShipNetClientThread
 
 	public boolean isSunken()
 	{
-		return BattleShipNetProtocol.isSunkenAt(getCommand());
+		return BattleShipNetProtocol.isSunken(getCommand());
 	}
 
 }

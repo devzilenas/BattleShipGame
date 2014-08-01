@@ -7,7 +7,7 @@ public class BattleShipNetServerGame
 	BattleShipNetServerThread[] threads;
 	ServerSocket                serverSocket;
 	
-	public BattleShipNetServerGame(BattleShipPlayer p1, Board b1, BattleShipPlayer p2, Board b2, ServerSocket serverSocket)
+	public BattleShipNetServerGame(Player p1, Board b1, Player p2, Board b2, ServerSocket serverSocket)
 		throws IOException
 	{
 		super(p1,b1,p2,b2);
@@ -102,8 +102,8 @@ public class BattleShipNetServerGame
 		}
 	}
 
-	public BattleShipNetServerThread getTurn()
+	public BattleShipNetServerThread getTurnThread()
 	{
-		return getThreadFor(super().getTurn());
+		return getThreadFor(super.getTurn());
 	}
 }

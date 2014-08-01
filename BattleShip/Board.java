@@ -282,6 +282,14 @@ public class Board
 		ships.put(point, ship);
 	}
 
+	public void putShipAt(Ship ship, Point[] points)
+	{
+		for (Point point : points)
+		{
+			putShipAt(ship, point);
+		}
+	}
+
 	public int getWidth()
 	{
 		return getDimension().getWidth();
@@ -314,6 +322,6 @@ public class Board
 
 	public void setHitAt(Point point)
 	{
-		getTileAt(point).setHit();
+		getTileAt(point).setHit(true);
 	}
 }

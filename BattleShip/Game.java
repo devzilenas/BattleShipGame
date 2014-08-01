@@ -75,6 +75,11 @@ public class Game
 
 	public Player player(int i)
 	{
+		return getPlayer(i);
+	}
+
+	public Player getPlayer(int i)
+	{
 		return getPlayers().get(i);
 	}
 
@@ -97,7 +102,7 @@ public class Game
 		Player player = null;
 		for (Player p: getPlayers())
 		{ 
-			if (((BattleShipPlayer)p).isHuman())
+			if (p.isHuman())
 			{
 				player = p;
 				break;
@@ -111,7 +116,7 @@ public class Game
 		Player player = null;
 		for (Player p : getPlayers()) 
 		{
-			if (((BattleShipPlayer)p).isComputer())
+			if (p.isComputer())
 			{
 				player = p;
 				break;
@@ -157,16 +162,14 @@ public class Game
 
 	public boolean isComputerTurn()
 	{
-		BattleShipPlayer bp = (BattleShipPlayer) getTurn();
-		return !(bp.getStrategy() instanceof BattleShipStrategyNull);
+		return !(getTurn().getStrategy() instanceof BattleShipStrategyNull);
 	}
 
 	public void makeComputerTurn()
 	{
 		if (!isOver())
 		{
-			BattleShipPlayer bp = (BattleShipPlayer) getTurn();
-			Point point = bp.getStrategy().getNextPoint(getBoard(player()));
+			Point point = getTurn().getStrategy().getNextPoint(getBoard(player()));
 			attack(point);
 		}
 	}

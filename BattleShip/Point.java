@@ -1,5 +1,7 @@
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Point
 {
@@ -12,9 +14,8 @@ public class Point
 		this.y = y;
 	}
 
-	public Point(String str)
-	{ 
-		Point point = fromString(str);
+	public Point(Point point)
+	{
 		this(point.getX(), point.getY());
 	}
 
@@ -52,53 +53,21 @@ public class Point
 	public String toString()
 	{
 		return "x:"+getX()+",y:"+getY();
-	}
+	} 
 
-	/**
-	 * @see #toString()
-	 */
-	public static Point fromString(String str)
-		throws PointConversionException
+	public static String pointsAsString(Point[] points)
 	{
-		Point   point = null;
-		Pattern p = Pattern.compile("x:(\\d),y:(\\d)");
-		Matcher m = p.matcher(str);
-		try
+		StringBuilder sb = new StringBuilder();
+		Point point = null;
+		for (int i = 0 ; i < points.length; i++)
 		{
-			point = new Point(Integer.valueOf(m.group(1)), Integer.valueOf(m.group(2)));
-		}
-		catch (IndexOutOfBoundsException|NumberFormatException e)
-		{
-			e.printStackTrace(System.err);
-			System.err.println("Conversion Str->Point failed for string:"+str);
-			throw new PointConversionException();
-		}
-
-		return point;
-	}
-
-	public static Point[] pointsFromString(String str)
-		throws PointConversionException
-	{
-		Point   point = null;
-		Point[] points;
-		Pattern p = Pattern.compile("(x:\\d,y:\\d)");
-		Matcher m = p.matcher(str);
-		try
-		{
-			points = new Point[m.groupCount()];
-			for (int i = 0; i < m.groupCount(); i++)
+			point = points[i];
+			sb.append(point.toString());
+			if (0 != i && points.length - 1 != i)
 			{
-				points[i] = new Point(m.group(1));
+				sb.append(";");
 			}
 		}
-		catch (IndexOutOfBoundsException|NumberFormatException e)
-		{
-			e.printStackTrace(System.err);
-			System.err.println("Conversion Str->Points failed for string:"+str);
-			throw new PointConversionException();
-		}
-
-		return points;
+		return sb.toString();
 	}
 }

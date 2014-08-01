@@ -2,11 +2,17 @@ public class Player
 {
 	private static final String DEFAULT_NAME   = "Player";
 	private static final String DEFAULT_NAME_I = "Player %d";
-	private String name ;
-	private Board  board;
+	private String   name    ;
+	private Board    board   ;
+	private Strategy strategy;
 
 	public Player()
 	{
+	}
+
+	public Player(Strategy strategy)
+	{
+		this.strategy = strategy;
 	}
 
 	public Player(Board board)
@@ -35,6 +41,16 @@ public class Player
 	{
 		this(name);
 		this.board = board;
+	}
+
+	public void setStrategy(Strategy strategy)
+	{
+		this.strategy = strategy;
+	}
+
+	public Strategy getStrategy()
+	{
+		return strategy;
 	}
 
 	public void setName(String name)
@@ -75,5 +91,15 @@ public class Player
 	public Board board()
 	{
 		return getBoard();
+	}
+
+	public boolean isHuman()
+	{
+		return getStrategy() instanceof BattleShipStrategyNull;
+	}
+
+	public boolean isComputer()
+	{
+		return !isHuman();
 	}
 }

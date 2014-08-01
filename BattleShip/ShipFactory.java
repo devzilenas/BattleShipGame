@@ -40,4 +40,11 @@ public class ShipFactory
 			createShip("Destroyer") };
 		return ships;
 	}
+	
+	public static Ship sunken(int size)
+	{
+		Ship ship = new Ship(size);
+		ship.sunk();
+		return ship;
+	}
 }

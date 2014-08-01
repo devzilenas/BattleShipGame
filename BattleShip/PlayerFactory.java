@@ -1,21 +1,21 @@
 public class PlayerFactory
 {
-	public static BattleShipPlayer withStrategy(BattleShipStrategy strategy)
+	public static Player withStrategy(BattleShipStrategy strategy)
 	{
-		return new BattleShipPlayer(strategy);
+		return new Player(strategy);
 	}
 
-	public static BattleShipPlayer human()
+	public static Player human()
 	{
 		return withStrategy(new BattleShipStrategyNull());
 	}
 
-	public static BattleShipPlayer random()
+	public static Player random()
 	{
 		return withStrategy(new BattleShipStrategyRandom());
 	}
 
-	public static BattleShipPlayer server()
+	public static Player server()
 	{
 		return withStrategy(new BattleShipStrategyNull());
 	}
