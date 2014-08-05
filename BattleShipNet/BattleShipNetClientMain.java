@@ -26,8 +26,21 @@ public class BattleShipNetClientMain
 			System.out.println("Wrong value for <port number> given.");
 		}
 
-		BattleShipNetClient bsnc = new BattleShipNetClient(hostName, portNumber);
-		bsnc.play();
-
+		try {
+			BattleShipNetClient bsnc = new BattleShipNetClient(hostName, portNumber);
+			bsnc.play();
+		}
+		catch (UnknownHostException e)
+		{
+			System.err.println("Unknown host exception"+e);
+		}
+		catch (IOException e)
+		{
+			System.err.println("I/O exception"+e);
+		}
+		catch (PointConversionException e)
+		{
+			System.err.println("Point conversion, protocol error "+e);
+		} 
 	}
 }

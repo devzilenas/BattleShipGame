@@ -19,6 +19,14 @@ public class Point
 		this(point.getX(), point.getY());
 	}
 
+	public Point(String string)
+		throws PointConversionException
+	{
+		this(
+				PointFactory.fromString(string).getX(),
+				PointFactory.fromString(string).getY());
+	}
+
 	public void setX(int x)
 	{
 		this.x = x;

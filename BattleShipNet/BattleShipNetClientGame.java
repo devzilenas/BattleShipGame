@@ -17,6 +17,11 @@ public class BattleShipNetClientGame
 		return player(0).getStrategy() instanceof BattleShipStrategyServer ? player(0) : player(1);
 	}
 
+	public Player getNotServerPlayer()
+	{
+		return opponent(getServerPlayer());
+	}
+
 	public void setHitAt(Point point)
 	{
 		Tile tile = getServerPlayer().getBoard().getTileAt(point);
@@ -29,4 +34,5 @@ public class BattleShipNetClientGame
 		Tile tile = getServerPlayer().getBoard().getTileAt(point);
 		tile.setAttacked(true);
 	}
+
 }

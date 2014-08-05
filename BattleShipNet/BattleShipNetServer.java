@@ -25,6 +25,16 @@ public class BattleShipNetServer
 		return protocol;
 	}
 
+	public void setConfiguration(Configuration cfg)
+	{
+		this.cfg = cfg;
+	}
+
+	public Configuration getConfiguration()
+	{
+		return cfg;
+	}
+
 	public void setServerSocket(ServerSocket serverSocket)
 	{
 		this.serverSocket = serverSocket;
@@ -35,12 +45,12 @@ public class BattleShipNetServer
 		return serverSocket;
 	}
 
-	public void setGame(BattleShipNetGame game)
+	public void setGame(BattleShipNetServerGame game)
 	{
 		this.game = game;
 	}
 
-	public BattleShipNetGame getGame()
+	public BattleShipNetServerGame getGame()
 	{
 		return game;
 	}
@@ -69,44 +79,57 @@ public class BattleShipNetServer
 	}
 
 	public void play()
+		throws PointConversionException
 	{
+		BattleShipNetServerGame game = getGame();
+
 		String resp = null;
 		while (!getGame().playersConnected())
 		{
 			sleep();
 		}
 
-		if (getGame().playersConnected())
-		{
-			getGame().start();
+		if (game.playersConnected())
+		{ 
+			game.say(BattleShipNetProtocol.getShips());
 		}
 
-		while (!getGame().isOver())
+		if (game.playersConnected())
 		{
-			getGame().getTurn().say(
+			game.acquireShips();
+		}
+
+		if (game.playersConnected())
+		{ 
+			game.start();
+		}
+
+		while (!game.isOver())
+		{
+			game.getTurnThread().say(
 					getProtocol().attack());
-			getGame().getTurn().nextCommand();
+
+			game.getTurnThread().nextCommand();
+
 			if (getProtocol().attacks(
-						getGame().getTurn().getCommand()))
+						game.getTurnThread().getCommand()))
 			{
-				getGame().attack(
-						new Point(
-							getGame().getTurn().getCommand()));
-				if (getGame().opponent(
-							(getGame().getTurn().getPlayer())).getBoard().isHitAt(point))
+				Point point = new Point(
+						game.getTurnThread().getCommand());
+
+				game.attack(point);
+
+				if (game.opponent(
+							(game.getTurnThread().getPlayer())).getBoard().isHitAt(point))
 				{
-					getGame().getTurn().say(
-							getProtocol().hit());
+					game.getTurnThread().say(
+							getProtocol().hitAt(point));
 				}
 				else
 				{
+					game.getTurnThread().say(
+							getProtocol().missAt(point));
 				}
-			}
-			else if ()
-			{
-			}
-			else if ()
-			{
 			}
 		}
 	}
@@ -115,11 +138,24 @@ public class BattleShipNetServer
 	{
 		createGame();
 		startGame();
-		play();
+		try {
+			play();
+		}
+		catch (PointConversionException e) 
+		{
+			System.err.println("Point conversion failed!"+e);
+		} 
 	}
 
 	public void sleep()
 	{
-		Thread.sleep(getServerTick());
+		try
+		{
+			Thread.sleep(getServerTick());
+		}
+		catch (InterruptedException e)
+		{
+			System.err.println("Server thread interruption!" + e);
+		} 
 	}
 }

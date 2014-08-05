@@ -5,11 +5,11 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 
 public class BattleShipNetServerThread
-	extends Thread
+	extends BattleShipNetThread
 {
 	private CommunicationModule cm    ;
 	private Player              player;
-	private boolean             ready = false;
+	private boolean             ready ;
 
 	public BattleShipNetServerThread(Socket socket, Player player)
 	{

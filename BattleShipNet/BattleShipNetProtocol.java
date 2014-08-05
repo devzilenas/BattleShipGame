@@ -28,6 +28,21 @@ public class BattleShipNetProtocol
 		return "HIT AT";
 	}
 
+	public static String hitAt(Point point)
+	{
+		return hitAt()+ " " + point.toString();
+	}
+
+	public static String missAt()
+	{
+		return "MISS AT";
+	}
+
+	public static String missAt(Point point)
+	{
+		return missAt() + " " + point.toString();
+	}
+
 	public static String sunken()
 	{
 		return "SUNKEN";
@@ -43,6 +58,11 @@ public class BattleShipNetProtocol
 		return contains(hitAt(), command);
 	}
 
+	public static boolean isMissAt(String command)
+	{
+		return contains(missAt(), command);
+	}
+
 	public static boolean isSunken(String command)
 	{
 		return contains(sunken(), command);
@@ -51,6 +71,21 @@ public class BattleShipNetProtocol
 	public static String yourName()
 	{
 		return "YOUR NAME";
+	}
+
+	public static String getShips()
+	{
+		return "GET SHIPS";
+	}
+
+	public static String shipsEnd()
+	{
+		return "SHIPS END";
+	}
+
+	public static boolean isShipsEnd(String str)
+	{
+		return contains(shipsEnd(), str);
 	}
 
 	public static String getReady()
@@ -78,12 +113,30 @@ public class BattleShipNetProtocol
 		return "READY";
 	}
 
+	public static String shipAt()
+	{
+		return "SHIP AT";
+	}
+
+	public static Point[] points(String str)
+		throws PointConversionException
+	{
+		Ship ship      = null;
+		Point[] points = new Point[0];
+		if (contains(shipAt(), str))
+		{
+			points = PointFactory.pointsFromString(str);
+		}
+		return points;
+	}
+
 	public static boolean attacks(String attacks)
 	{
 		return contains("ATTACK AT", attacks);
 	}
 
 	public static Point extractPoint(String command)
+		throws PointConversionException
 	{
 		return PointFactory.fromString(command);
 	}

@@ -3,6 +3,7 @@ import java.util.ArrayList    ;
 import java.util.Iterator     ;
 import java.util.Map          ;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry    ;
 
 public class Board
 {
@@ -323,5 +324,22 @@ public class Board
 	public void setHitAt(Point point)
 	{
 		getTileAt(point).setHit(true);
+	}
+	
+	public List<Point> points(Ship ship)
+	{ 
+		List<Point> points = new ArrayList<Point>();
+		Point point = null;
+		Tile  tile  = null;
+		for (Map.Entry<Point, Tile> entry : getTiles().entrySet())
+		{
+			point = entry.getKey()  ;
+			tile  = entry.getValue();
+			if (tile.hasShip() && tile.getShip() == ship)
+			{ 
+				points.add(point);
+			}
+		}
+		return points;
 	}
 }

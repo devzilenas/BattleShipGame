@@ -1,14 +1,14 @@
 public class Configuration
 {
-	private String hostName;
-	private int    portName;
+	private String hostName  ;
+	private int    portNumber;
 
 	public Configuration(int portNumber)
 	{
-		this.portNumber;
+		this.portNumber = portNumber;
 	}
 
-	public Configuration(int portNumber, String hostName)
+	public Configuration(String hostName, int portNumber)
 	{
 		this.portNumber = portNumber;
 		this.hostName   = hostName  ;

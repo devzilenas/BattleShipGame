@@ -84,4 +84,13 @@ public class CommunicationModule
 	{
 		return getSocket().isConnected();
 	}
+
+	public String getLineBlocking()
+	{
+		String str = null;
+		while (null != (str = readLine()))
+		{
+		}
+		return str;
+	}
 }

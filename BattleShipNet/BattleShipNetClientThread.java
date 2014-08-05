@@ -1,3 +1,5 @@
+import java.net.Socket;
+
 public class BattleShipNetClientThread 
 	extends BattleShipNetThread
 {
@@ -5,6 +7,7 @@ public class BattleShipNetClientThread
 
 	public BattleShipNetClientThread(Socket socket)
 	{
+		super(socket);
 		this.game = BattleShipNetGameFactory.getClientGame();
 	}
 
@@ -26,15 +29,6 @@ public class BattleShipNetClientThread
 	public void say(String str)
 	{
 		getCommunicationModule().say(str);
-	}
-
-	public String getLineBlocking()
-	{
-		String str = null;
-		while (null != (str = getCommunicationModule().readLine()))
-		{
-		}
-		return str;
 	}
 
 	public boolean gameOver()
@@ -64,9 +58,13 @@ public class BattleShipNetClientThread
 		return BattleShipNetProtocol.isHitAt(getCommand());
 	}
 
+	public boolean isMiss()
+	{
+		return BattleShipNetProtocol.isMissAt(getCommand());
+	}
+
 	public boolean isSunken()
 	{
 		return BattleShipNetProtocol.isSunken(getCommand());
 	}
-
 }
