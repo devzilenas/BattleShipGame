@@ -88,14 +88,24 @@ public class BattleShipNetProtocol
 		return contains(shipsEnd(), str);
 	}
 
+	public static boolean isGetShips(String str)
+	{
+		return contains(getShips(), str);
+	}
+
 	public static String getReady()
 	{
 		return "GET READY";
 	}
 
+	public static String attackAt()
+	{
+		return "ATTACK AT";
+	}
+
 	public static String attackAt(Point point)
 	{
-		return "ATTACK AT " + point.toString();
+		return attackAt() + " " + point.toString();
 	}
 
 	public static String gameOver()
@@ -118,6 +128,11 @@ public class BattleShipNetProtocol
 		return "SHIP AT";
 	}
 
+	public static String shipAt(Point[] points)
+	{ 
+		return shipAt() + " " + Point.pointsAsString(points);
+	}
+
 	public static Point[] points(String str)
 		throws PointConversionException
 	{
@@ -130,9 +145,9 @@ public class BattleShipNetProtocol
 		return points;
 	}
 
-	public static boolean attacks(String attacks)
+	public static boolean attacks(String str)
 	{
-		return contains("ATTACK AT", attacks);
+		return contains(attackAt(), str);
 	}
 
 	public static Point extractPoint(String command)
@@ -145,6 +160,6 @@ public class BattleShipNetProtocol
 	{
 		Pattern p = Pattern.compile(str);
 		Matcher m = p.matcher(command);
-		return m.matches();
+		return m.lookingAt();
 	}
 }

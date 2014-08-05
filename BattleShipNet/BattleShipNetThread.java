@@ -3,8 +3,8 @@ import java.net.Socket;
 public class BattleShipNetThread
 	extends Thread
 {
-	private CommunicationModule cm;
-	private String command;
+	private CommunicationModule cm     ;
+	private String              command;
 
 	public BattleShipNetThread(String string)
 	{

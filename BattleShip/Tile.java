@@ -55,12 +55,12 @@ public class Tile
 
 	public boolean isHit()
 	{
-		return isAttacked() && (isHit() || hasShip());
+		return getAttacked() && (getHit() || hasShip());
 	}
 
 	public boolean isMiss()
 	{
-		return isAttacked() && !isHit();
+		return getAttacked() && !isHit();
 	}
 
 	public boolean hasShip()

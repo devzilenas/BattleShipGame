@@ -326,7 +326,7 @@ public class Board
 		getTileAt(point).setHit(true);
 	}
 	
-	public List<Point> points(Ship ship)
+	public Point[] points(Ship ship)
 	{ 
 		List<Point> points = new ArrayList<Point>();
 		Point point = null;
@@ -340,6 +340,6 @@ public class Board
 				points.add(point);
 			}
 		}
-		return points;
+		return points.toArray(new Point[0]);
 	}
 }

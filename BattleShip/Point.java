@@ -71,10 +71,7 @@ public class Point
 		{
 			point = points[i];
 			sb.append(point.toString());
-			if (0 != i && points.length - 1 != i)
-			{
-				sb.append(";");
-			}
+			sb.append(";");
 		}
 		return sb.toString();
 	}

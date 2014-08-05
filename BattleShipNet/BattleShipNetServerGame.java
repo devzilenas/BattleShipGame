@@ -106,6 +106,12 @@ public class BattleShipNetServerGame
 	{
 		return getThreadFor(super.getTurn());
 	}
+
+	@Override
+	public void attack(Point point)
+	{ 
+		getBoard(opponent()).attackAt(point);
+	}
 	
 	public void acquireShips()
 		throws PointConversionException
@@ -114,8 +120,7 @@ public class BattleShipNetServerGame
 		{
 			BattleShipNetServerThread thread = getThreads()[i];
 			Point[] points = new Point[0];
-			thread.nextCommand();
-			while (!BattleShipNetProtocol.isShipsEnd(thread.getCommand()))
+			while (!BattleShipNetProtocol.isShipsEnd(thread.nextCommand()))
 			{
 				points = BattleShipNetProtocol.points(
 						thread.getCommand());

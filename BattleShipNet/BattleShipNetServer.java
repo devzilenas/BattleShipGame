@@ -84,6 +84,7 @@ public class BattleShipNetServer
 		BattleShipNetServerGame game = getGame();
 
 		String resp = null;
+
 		while (!getGame().playersConnected())
 		{
 			sleep();
@@ -96,6 +97,7 @@ public class BattleShipNetServer
 
 		if (game.playersConnected())
 		{
+			System.out.println("Acquiring ships");
 			game.acquireShips();
 		}
 
@@ -119,8 +121,9 @@ public class BattleShipNetServer
 
 				game.attack(point);
 
-				if (game.opponent(
-							(game.getTurnThread().getPlayer())).getBoard().isHitAt(point))
+				if (game.getBoard(
+							game.opponent(
+								game.getTurnThread().getPlayer())).isHitAt(point))
 				{
 					game.getTurnThread().say(
 							getProtocol().hitAt(point));
@@ -130,6 +133,16 @@ public class BattleShipNetServer
 					game.getTurnThread().say(
 							getProtocol().missAt(point));
 				}
+				game.endTurn();
+			}
+			else
+			{
+				System.out.println("Uknown command " + game.getTurnThread().getCommand());
+			}
+
+			if (game.isOver())
+			{
+				System.out.println("Winner is"+game.getWinner());
 			}
 		}
 	}

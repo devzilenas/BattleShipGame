@@ -36,6 +36,11 @@ public class BattleShipNetClientThread
 		return getGame().isOver();
 	}
 
+	public boolean isGetShips()
+	{
+		return BattleShipNetProtocol.isGetShips(getCommand());
+	}
+
 	public boolean attacks()
 	{
 		return BattleShipNetProtocol.attacks(
@@ -51,6 +56,16 @@ public class BattleShipNetClientThread
 	public void attackAt(Point point)
 	{
 		say(BattleShipNetProtocol.attackAt(point));
+	}
+
+	public void tellShips()
+	{
+		Board board = getGame().getBoard(getGame().getClientPlayer());
+		for (Ship ship : board.ships())
+		{
+			say(BattleShipNetProtocol.shipAt(board.points(ship)));
+		}
+		say(BattleShipNetProtocol.shipsEnd());
 	}
 
 	public boolean isHit()

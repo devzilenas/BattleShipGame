@@ -34,51 +34,58 @@ public class BattleShipNetClient
 	public void play()
 		throws PointConversionException
 	{
-		getThread().start();
+		BattleShipNetClientThread thread = getThread();
+		BattleShipNetClientGame   game   = getThread().getGame();
+		thread.start();
 
-		getThread().say(getProtocol().ready());
-
-		while (!getThread().gameOver())
+		while (!thread.gameOver())
 		{
-			getThread().nextCommand();
-			if (getThread().attack())
+			thread.nextCommand();
+			System.out.println("Analyzing command:"+thread.getCommand());
+			if (thread.isGetShips())
 			{
-				BattleShipNetClientGame game = getThread().getGame();
-				Board board = game.player(0).getBoard();
+				thread.tellShips();
+			}
+			else if (thread.attack())
+			{
+				Board board = game.getBoard(game.player(0));
 				Point point = game.player(1).getStrategy().getNextPoint(board);
 				board.attackAt(point);
+				thread.attackAt(point);
 			}
-			else if (getThread().attacks())
+			else if (thread.attacks())
 			{ 
-				BattleShipNetClientGame game = getThread().getGame();
 				Player player = game.opponent(
 						game.getServerPlayer());
 				Point point = new Point(
-						getThread().getCommand());
+						thread.getCommand());
 				game.getBoard(player).attackAt(point);
 			}
-			else if (getThread().isHit())
+			else if (thread.isHit())
 			{
-				Point point = new Point(getThread().getCommand());
-				getThread().getGame().setHitAt(point);
+				Point point = new Point(thread.getCommand());
+				thread.getGame().setHitAt(point);
 			}
-			else if (getThread().isMiss())
+			else if (thread.isMiss())
 			{
 				Point point = new Point(
-						getThread().getCommand());
-				getThread().getGame().setMissAt(point);
+						thread.getCommand());
+				thread.getGame().setMissAt(point);
 			}
-			else if (getThread().isSunken())
+			else if (thread.isSunken())
 			{
-				BattleShipNetClientGame game = getThread().getGame();
 				Point[] points = PointFactory.pointsFromString(
-						getThread().getCommand());
+						thread.getCommand());
 				game.getBoard(game.getServerPlayer()).putShipAt(
 						ShipFactory.sunken(points.length), points);
 			}
-			else if (getThread().gameOver())
+			else if (thread.gameOver())
 			{
 				System.out.println("Game over");
+			}
+			else 
+			{
+				System.out.println("uknown command" + getThread().getCommand());
 			}
 			
 			try {

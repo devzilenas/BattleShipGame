@@ -125,6 +125,11 @@ public class Game
 		return player;
 	}
 
+	public Board getBoard()
+	{
+		return getBoard(player());
+	}
+
 	public Board getBoard(Player player)
 	{
 		return getBoards().get(player);

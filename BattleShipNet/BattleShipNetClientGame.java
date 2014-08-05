@@ -17,21 +17,21 @@ public class BattleShipNetClientGame
 		return player(0).getStrategy() instanceof BattleShipStrategyServer ? player(0) : player(1);
 	}
 
-	public Player getNotServerPlayer()
+	public Player getClientPlayer()
 	{
 		return opponent(getServerPlayer());
 	}
 
 	public void setHitAt(Point point)
 	{
-		Tile tile = getServerPlayer().getBoard().getTileAt(point);
+		Tile tile = getBoard(getServerPlayer()).getTileAt(point);
 		tile.setHit(true);
 		tile.setAttacked(true);
 	}
 
 	public void setMissAt(Point point)
 	{
-		Tile tile = getServerPlayer().getBoard().getTileAt(point);
+		Tile tile = getBoard(getServerPlayer()).getTileAt(point);
 		tile.setAttacked(true);
 	}
 

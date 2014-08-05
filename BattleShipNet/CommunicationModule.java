@@ -77,6 +77,11 @@ public class CommunicationModule
 
 	public void say(String msg)
 	{
+		while (null == getOut())
+		{
+			System.err.println("Out not initialized yet!");
+		}
+		System.out.println("said:"+msg);
 		getOut().println(msg);
 	}
 
@@ -88,9 +93,14 @@ public class CommunicationModule
 	public String getLineBlocking()
 	{
 		String str = null;
-		while (null != (str = readLine()))
+		while (null == getIn())
+		{
+			System.out.println("In not initialized yet!");
+		}
+		while (null == (str = readLine()))
 		{
 		}
+		System.out.println("read:"+str);
 		return str;
 	}
 }
