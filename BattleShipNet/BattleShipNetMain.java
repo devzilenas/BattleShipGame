@@ -19,7 +19,8 @@ public class BattleShipNetMain
 		{
 			System.err.println("Wrong value for <port number> given.");
 		} 
-		BattleShipNetServer bsns = new BattleShipNetServer(portNumber);
+		BattleShipNetServer bsns =
+			new BattleShipNetServer(portNumber);
 		bsns.start();
 		for (;;);
 	}

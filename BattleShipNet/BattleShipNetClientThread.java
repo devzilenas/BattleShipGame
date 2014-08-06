@@ -21,6 +21,7 @@ public class BattleShipNetClientThread
 		return game;
 	}
 
+	@Override
 	public void run()
 	{
 		getCommunicationModule().init();
@@ -60,10 +61,14 @@ public class BattleShipNetClientThread
 
 	public void tellShips()
 	{
-		Board board = getGame().getBoard(getGame().getClientPlayer());
+		BattleShipNetClientGame game = getGame();
+		Board board = game.getBoard(
+				game.getClientPlayer());
 		for (Ship ship : board.ships())
 		{
-			say(BattleShipNetProtocol.shipAt(board.points(ship)));
+			say(
+					BattleShipNetProtocol.shipAt(
+						board.points(ship)));
 		}
 		say(BattleShipNetProtocol.shipsEnd());
 	}
@@ -81,5 +86,10 @@ public class BattleShipNetClientThread
 	public boolean isSunken()
 	{
 		return BattleShipNetProtocol.isSunken(getCommand());
+	}
+
+	public boolean isGameOver()
+	{
+		return BattleShipNetProtocol.isGameOver(getCommand());
 	}
 }

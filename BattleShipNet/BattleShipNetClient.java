@@ -4,16 +4,22 @@ import java.io.IOException;
 
 public class BattleShipNetClient
 {
-	private Configuration             cfg   ;
-	private BattleShipNetClientThread thread;
-	private static final BattleShipNetProtocol protocol = new BattleShipNetProtocol();
+	private Configuration             cfg     ;
+	private BattleShipNetClientThread thread  ;
+	private BattleShipNetProtocol     protocol;
 
 	public BattleShipNetClient(String hostName, int portNumber)
 		throws UnknownHostException, IOException
 	{
-		this.cfg    = new Configuration(hostName, portNumber);
-		this.thread = new BattleShipNetClientThread(
+		this.cfg      = new Configuration(hostName, portNumber);
+		this.protocol = new BattleShipNetProtocol();
+		this.thread   = new BattleShipNetClientThread(
 				new Socket(hostName, portNumber));
+	}
+
+	public void setProtocol(BattleShipNetProtocol protocol)
+	{
+		this.protocol = protocol;
 	}
 
 	public BattleShipNetProtocol getProtocol()
@@ -38,7 +44,7 @@ public class BattleShipNetClient
 		BattleShipNetClientGame   game   = getThread().getGame();
 		thread.start();
 
-		while (!thread.gameOver())
+		do
 		{
 			thread.nextCommand();
 			System.out.println("Analyzing command:"+thread.getCommand());
@@ -48,8 +54,11 @@ public class BattleShipNetClient
 			}
 			else if (thread.attack())
 			{
-				Board board = game.getBoard(game.player(0));
+				Board board = game.getBoard(
+						game.player(0));
+				System.out.println("Next point1");
 				Point point = game.player(1).getStrategy().getNextPoint(board);
+				System.out.println("Next point2");
 				board.attackAt(point);
 				thread.attackAt(point);
 			}
@@ -79,7 +88,7 @@ public class BattleShipNetClient
 				game.getBoard(game.getServerPlayer()).putShipAt(
 						ShipFactory.sunken(points.length), points);
 			}
-			else if (thread.gameOver())
+			else if (thread.isGameOver())
 			{
 				System.out.println("Game over");
 			}
@@ -89,17 +98,18 @@ public class BattleShipNetClient
 			}
 			
 			try {
-				Thread.sleep(100);
+				Thread.sleep(10);
 			}
 			catch (InterruptedException e)
 			{
 				System.err.println("Client run interrupted"+e);
 			}
-		}
+		} while (!thread.isGameOver());
 
-		if (getThread().gameOver())
+		if (getThread().isGameOver())
 		{
-			System.out.println("You " + (getThread().getGame().serverWins() ? "LOOSE" : "WIN"));
+			System.out.println(
+					getThread().nextCommand());
 		}
 	}
 }

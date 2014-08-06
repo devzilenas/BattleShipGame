@@ -10,10 +10,10 @@ public class BattleShipNetGameFactory
 		return new BattleShipNetServerGame(
 
 				PlayerFactory.human(),
-				BoardFactory.getMiltonBradley(),
+				BoardFactory.getEmpty(),
 
 				PlayerFactory.human(),
-				BoardFactory.getMiltonBradley(),
+				BoardFactory.getEmpty(),
 
 				serverSocket);
 	}

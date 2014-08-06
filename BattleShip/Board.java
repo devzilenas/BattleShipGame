@@ -17,9 +17,9 @@ public class Board
 		tiles = new LinkedHashMap<Point, Tile>();
 		ships = new LinkedHashMap<Point, Ship>();
 
-		for (int x = 0; x < getHeight(); x++)
+		for (int y = 0; y < getHeight(); y++)
 		{
-			for (int y = 0; y < getWidth(); y++)
+			for (int x = 0; x < getWidth(); x++)
 			{
 				setTileAt(new Tile(), new Point(x,y));
 			}
@@ -63,7 +63,15 @@ public class Board
 
 	public List<Ship> ships()
 	{
-		return new ArrayList<Ship>(getShips().values());
+		List<Ship> ships = new ArrayList<Ship>();
+		for (Ship ship : getShips().values())
+		{
+			if (!ships.contains(ship))
+			{
+				ships.add(ship);
+			}
+		}
+		return ships;
 	}
 
 	public void setTileAt(Tile tile, Point point)
@@ -233,13 +241,9 @@ public class Board
 	public Point getNextPoint(Point point)
 	{
 		int index = getPoints().indexOf(point) + 1;
-		if (index >= getPoints().size() - 1)
+		if (index >= getPoints().size())
 		{
 			index = 0;
-		}
-		else
-		{
-			index++;
 		}
 		return getPoints().get(index);
 	}

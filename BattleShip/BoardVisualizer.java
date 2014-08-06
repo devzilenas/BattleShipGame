@@ -1,10 +1,38 @@
+import java.util.Map;
 public class BoardVisualizer
 {
 	public static void showBoard(Board board)
-	{ 
-		for (Point point : board.getPoints())
+	{
+		String s     = "0";
+		Point  point = null;
+		Tile   tile  = null;
+		for (Map.Entry<Point, Tile> entry : board.getTiles().entrySet())
 		{
-			System.out.print(" | " + (board.hasShipAt(point) ? board.getShipAt(point).getSize() : 0) );
+			point = entry.getKey()  ; 
+			tile  = entry.getValue();
+			if (board.isAttacked(point))
+			{
+				if (board.hasShipAt(point) && board.isHitAt(point))
+				{
+					s = "x";
+				}
+				else
+				{
+					s = "h";
+				}
+			}
+			else
+			{
+				if (board.hasShipAt(point))
+				{
+					s = "" + board.getShipAt(point).getSize();
+				}
+				else 
+				{
+					s = "0";
+				}
+			}
+			System.out.print(" | " + s );
 			if (board.isEastMost(point))
 			{
 				System.out.println(" |");

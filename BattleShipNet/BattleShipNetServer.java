@@ -4,20 +4,26 @@ import java.io.*;
 public class BattleShipNetServer
 	extends Thread
 {
-	public static final int   SERVER_TICK = 100;
-	public static final BattleShipNetProtocol protocol = new BattleShipNetProtocol();
+	public static final int   SERVER_TICK = 10;
+	public BattleShipNetProtocol protocol ;
 	private Configuration     cfg         ;
 	private ServerSocket      serverSocket;
 	private BattleShipNetServerGame game  ;
 
 	public BattleShipNetServer(int portNumber)
 	{
-		this.cfg = new Configuration(portNumber);
+		this.cfg      = new Configuration(portNumber);
+		this.protocol = new BattleShipNetProtocol();
 	}
 
 	public static int getServerTick()
 	{
 		return SERVER_TICK;
+	}
+
+	public void setProtocol(BattleShipNetProtocol protocol)
+	{
+		this.protocol = protocol;
 	}
 
 	public BattleShipNetProtocol getProtocol()
@@ -83,28 +89,16 @@ public class BattleShipNetServer
 	{
 		BattleShipNetServerGame game = getGame();
 
-		String resp = null;
-
 		while (!getGame().playersConnected())
 		{
 			sleep();
 		}
 
-		if (game.playersConnected())
-		{ 
-			game.say(BattleShipNetProtocol.getShips());
-		}
+		game.say(BattleShipNetProtocol.getShips());
 
-		if (game.playersConnected())
-		{
-			System.out.println("Acquiring ships");
-			game.acquireShips();
-		}
+		game.acquireShips();
 
-		if (game.playersConnected())
-		{ 
-			game.start();
-		}
+		game.start();
 
 		while (!game.isOver())
 		{
@@ -142,7 +136,17 @@ public class BattleShipNetServer
 
 			if (game.isOver())
 			{
-				System.out.println("Winner is"+game.getWinner());
+				Player p1 = game.getPlayer(0);
+				Player p2 = game.getPlayer(1);
+
+				System.out.println("Winner is: " + game.getWinner());
+				game.say(getProtocol().gameOver());
+
+				game.getThreadFor(p1).say(
+						getProtocol().winningStatus(game.getWinner() == p1));
+
+				game.getThreadFor(p2).say(
+						getProtocol().winningStatus(game.getWinner() == p2));
 			}
 		}
 	}

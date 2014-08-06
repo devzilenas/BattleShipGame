@@ -109,7 +109,7 @@ public class BattleShipNetServerGame
 
 	@Override
 	public void attack(Point point)
-	{ 
+	{
 		getBoard(opponent()).attackAt(point);
 	}
 	

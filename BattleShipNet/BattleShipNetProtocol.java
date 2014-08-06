@@ -113,9 +113,19 @@ public class BattleShipNetProtocol
 		return "GAME OVER";
 	}
 
+	public static boolean isGameOver(String str)
+	{
+		return contains(gameOver(), str);
+	}
+
 	public static String winnerIs(Player player)
 	{
 		return "WINNER IS "+player;
+	}
+
+	public static String winningStatus(boolean win)
+	{
+		return "YOU " + (win ? "WIN" : "LOOSE");
 	}
 
 	public static String ready()

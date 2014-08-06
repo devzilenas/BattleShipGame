@@ -37,4 +37,9 @@ public class BoardFactory
 	{
 		return randomBoard(ShipFactory.createShips());
 	}
+
+	public static Board getEmpty()
+	{
+		return getStandard();
+	}
 }

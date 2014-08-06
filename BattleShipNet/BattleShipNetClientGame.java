@@ -6,12 +6,6 @@ public class BattleShipNetClientGame
 		super(p1,b1,p2,b2);
 	}
 
-	public boolean serverWins()
-	{
-		return hasWinner()
-			&& getWinner().getStrategy() instanceof BattleShipStrategyServer;
-	}
-
 	public Player getServerPlayer()
 	{
 		return player(0).getStrategy() instanceof BattleShipStrategyServer ? player(0) : player(1);
