@@ -8,6 +8,7 @@ $cd BattleShipGrid
 $mr.bat
 
 __To run a battle over the server do:__
+$cd BattleShipNet
 $start\_battle.bat
 
 This starts one server, two clients, and arranges a BattleShip battle between clients.
