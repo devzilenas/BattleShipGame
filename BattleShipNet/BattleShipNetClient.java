@@ -5,8 +5,8 @@ import java.io.IOException;
 public class BattleShipNetClient
 {
 	private Configuration             cfg     ;
-	private BattleShipNetClientThread thread  ;
 	private BattleShipNetProtocol     protocol;
+	private BattleShipNetClientThread thread  ;
 
 	public BattleShipNetClient(String hostName, int portNumber)
 		throws UnknownHostException, IOException
@@ -17,6 +17,16 @@ public class BattleShipNetClient
 				new Socket(hostName, portNumber));
 	}
 
+	public void setConfiguration(Configuration cfg)
+	{
+		this.cfg = cfg;
+	}
+
+	public Configuration getConfiguration()
+	{
+		return cfg;
+	}
+	
 	public void setProtocol(BattleShipNetProtocol protocol)
 	{
 		this.protocol = protocol;
@@ -56,9 +66,7 @@ public class BattleShipNetClient
 			{
 				Board board = game.getBoard(
 						game.player(0));
-				System.out.println("Next point1");
 				Point point = game.player(1).getStrategy().getNextPoint(board);
-				System.out.println("Next point2");
 				board.attackAt(point);
 				thread.attackAt(point);
 			}

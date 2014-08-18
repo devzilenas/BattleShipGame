@@ -6,6 +6,7 @@ public class BoardTest
 	public static void main(String[] args)
 	{ 
 		test1();
+		testShips();
 	}
 
 	public static int getSize()
@@ -21,5 +22,12 @@ public class BoardTest
 		assert false == board.isEastMost(new Point(8,9));
 		assert false == board.isEastMost(new Point(5,5));
 		assert true  == board.isEastMost(new Point(9,0));
+	}
+
+	public static void testShips()
+	{
+		Ship[] ships = ShipFactory.createShips();
+		Board  board = BoardFactory.randomBoard(ships);
+		assert ships.length == board.ships().size() : "Must have the same number of ships"; 
 	}
 }

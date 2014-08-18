@@ -1,1 +1,1 @@
-make && run
+make && start_battle

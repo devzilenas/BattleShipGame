@@ -47,17 +47,20 @@ public class Point
 		return y;
 	}
 
+	@Override
 	public boolean equals(Object o)
 	{
 		Point p = (Point) o;
 		return p.getX() == getX() && p.getY() == getY();
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return getY()*1000+ getX();
 	}
 
+	@Override
 	public String toString()
 	{
 		return "x:"+getX()+",y:"+getY();

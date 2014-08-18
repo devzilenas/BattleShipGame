@@ -7,9 +7,9 @@ import java.util.Map.Entry    ;
 
 public class Board
 {
-	Dimension dim              ;
-	Map<Point,Ship> ships      ;
-	Map<Point,Tile> tiles      ;
+	private Dimension dim        ;
+	private Map<Point,Ship> ships;
+	private Map<Point,Tile> tiles;
 
 	public Board(int width, int height)
 	{
